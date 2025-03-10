@@ -1,0 +1,1 @@
+"Given a sentence and two entities within the sentence, confirm if the given predicted relationship between the entities is correct. ## Sentence: {sentence} ## Entity 1: {entity1} ## Entity 2: {entity2} ## Predicted Relationship: {relationship} ## Answer YES or NO."

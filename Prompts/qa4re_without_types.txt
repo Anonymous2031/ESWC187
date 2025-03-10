@@ -1,0 +1,1 @@
+"Determine if the predicted relationship can be inferred from the given sentence. ## Sentence: {sentence} ## Predicted relationship: {entity1} {relationship_span} {entity2} ## This Predicted relationship can be inferred from the given sentence? Answer 'YES' or 'NO'."

@@ -1,0 +1,26 @@
+### SURE  ( WITH TYPES)
+f"The subject is {item['entity1']}. The object is {item['entity2']}. The type of {item['entity1']} is {item['subject_type']}. The type of {item['entity2']} is {item['object_type']}. {item['sentence']}. ## Does the summary '{item['entity1']} {item['relationship_span']} {item['entity2']}' accurately and comprehensively capture the relationship between the subject and object based on the context provided? Answer YES or NO."
+
+### SURE  (WITHOUT TYPES) 
+f"The subject is {item['entity1']}. The object is {item['entity2']}. {item['sentence']}. ## Does the summary '{item['entity1']} {item['relationship_span']} {item['entity2']}' accurately and comprehensively capture the relationship between the subject and object based on the context provided? Answer YES or NO."
+
+### NLI (without types)
+f"You are given a sentence and a hypothesis below. If the sentence entails the relationship described in the hypothesis, return 'YES' Otherwise, if the sentence does not support the relationship, return 'NO'. ## Sentence: {item['sentence']} ## Hypothesis: {item['entity1']}{item['relationship_span']} {item['entity2']}"
+
+## NLI (with types)
+f"You are given a sentence and a hypothesis below. If the sentence entails the relationship described in the hypothesis, return 'YES' Otherwise, if the sentence does not support the relationship, return 'NO'  ## Sentence: {item['sentence']} ## Hypothesis: {item['entity1']} (Type: {item['subject_type']}) {item['relationship_span']} {item['entity2']} (Type: {item['object_type']})"
+
+#QA4RE (WITH TYPES)
+f"Determine if the predicted relationship can be inferred from the given sentence. ## Sentence: {item['sentence']} ## Predicted relationship: {item['entity1']} (Type: {item['subject_type']}) {item['relationship_span']} {item['entity2']} (Type: {item['object_type']}) ## This Predicted relationship can be inferred from the given sentence? Answer 'YES' or 'NO'."
+
+##QA4RE (WITHOUT TYPES)
+f"Determine if the predicted relationship can be inferred from the given sentence. ## Sentence: {item['sentence']} ## Predicted relationship: {item['entity1']} {item['relationship_span']} {item['entity2']} ## This Predicted relationship can be inferred from the given sentence? Answer 'YES' or 'NO'."
+
+##Vanilla RE (with types)
+f"Given a sentence and two entities within the sentence, confirm if the given predicted relationship between the entities is correct. ## Sentence: {item['sentence']} ## Entity 1: {item['entity1']} (Type: {item['subject_type']}) ## Entity 2: {item['entity2']} (Type: {item['object_type']}) ## Predicted Relationship: {item['relationship']} ## Answer YES or NO."
+
+##Vanilla RE (without types)
+f"Given a sentence and two entities within the sentence, confirm if the given predicted relationship between the entities is correct. ## Sentence: {item['sentence']} ## Entity 1: {item['entity1']} ## Entity 2: {item['entity2']} ## Predicted Relationship: {item['relationship']} ## Answer YES or NO."
+
+
+
