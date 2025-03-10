@@ -20,7 +20,7 @@ Initial_Predictions
  |    |    |-- train.json        
  |    |    |-- dev.json
  |    |    |-- test.json
-'''
+```
 
 
 ## Pretrained models 
@@ -33,7 +33,7 @@ Initial_Predictions
  |    |    |-- RoBERTa_TACRED.json        
  |    |-- retacred
  |    |    |-- RoBERTa_ReTACRED.json        
-'''
+```
 
 ## Code Structure
 
