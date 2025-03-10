@@ -1,1 +1,0 @@
-"You are given a sentence and a hypothesis below. If the sentence entails the relationship described in the hypothesis, return 'YES' Otherwise, if the sentence does not support the relationship, return 'NO'  ## Sentence: {sentence} ## Hypothesis: {entity1} (Type: {subject_type}) {relationship_span} {entity2} (Type: {object_type})"

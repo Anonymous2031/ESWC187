@@ -1,1 +1,0 @@
-"The subject is {entity1}. The object is {entity2}. {sentence}. ## Does the summary '{entity1} {relationship_span} {entity2}' accurately and comprehensively capture the relationship between the subject and object based on the context provided? Answer YES or NO."
