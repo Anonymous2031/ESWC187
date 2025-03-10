@@ -6,6 +6,22 @@ Official Implementation for relation extraction using ontology and large languag
 
 This project focuses on enhancing relation extraction tasks by integrating ontology validation and LLM validation. The workflow involves generating schemas, validating predictions against ontological structures, refining predictions using LLMs, and evaluating the final outcomes.
 
+## Dataset
+
+The TACRED dataset can be obtained from [this link](https://nlp.stanford.edu/projects/tacred/). The Re-TACRED dataset can be obtained following the instructions in [Re-TACRED](https://github.com/gstoica27/Re-TACRED). The expected structure of files is:
+```
+Initial_Predictions
+ |-- Dataset
+ |    |-- tacred
+ |    |    |-- train.json        
+ |    |    |-- dev.json
+ |    |    |-- test.json
+ |    |-- retacred
+ |    |    |-- train.json        
+ |    |    |-- dev.json
+ |    |    |-- test.json
+```
+
 ## Code Structure
 
 The repository is organized as follows:
