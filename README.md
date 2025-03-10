@@ -30,9 +30,9 @@ Initial predictions are generated using pretrained models trained on the **TACRE
 Initial_Predictions
  |-- Models
  |    |-- tacred
- |    |    |-- RoBERTa_TACRED.json        
+ |    |    |-- RoBERTa_TACRED.bin        
  |    |-- retacred
- |    |    |-- RoBERTa_ReTACRED.json        
+ |    |    |-- RoBERTa_ReTACRED.bin       
 ```
 
 ## Code Structure
