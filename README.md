@@ -1,6 +1,7 @@
-# Project Title
+# RelCheck
 
-Official Implementation for relation extraction using ontology and large language models (LLMs).
+Official Implementation for RelCheck
+
 
 ## Description
 
