@@ -67,25 +67,40 @@ pip install -r Requirements.txt
 ### 1. Generating the Schema
 
 ```bash
-python3 0_GenerateSchema.py --input_dataset Initial_Predictions/Dataset/ReTACRED/train.json --output_schema Schemas/ReTACRED_Schema.json
+python3 0_GenerateSchema.py 
+        --input_dataset Initial_Predictions/Dataset/ReTACRED/train.json 
+        --output_schema Schemas/ReTACRED_Schema.json
 ```
 
 ### 2. Ontology-Based Validation
 
 ```bash
-python3 1_Ontology_Validation.py --input_predictions  ./Initial_Predictions/Predictions/Initial_predictions.csv                                  --ontology_schema Schemas/ReTACRED_Schema.json                                  --threshold 1                                  --output_validated  ./Revised_Predictions/Post-Ontology_Predictions.csv
+python3 1_Ontology_Validation.py 
+        --input_predictions  ./Initial_Predictions/Predictions/Initial_predictions.csv                                  
+        --ontology_schema Schemas/ReTACRED_Schema.json                                  
+        --threshold 1                                  
+        --output_validated  ./Revised_Predictions/Post-Ontology_Predictions.csv
 ```
 
 ### 3. LLM-Based Validation
 
 ```bash
-python3 2_LLM_Validation.py --input_predictions Revised_Predictions/Post-Ontology_Predictions.csv                             --ontology_schema Schemas/ReTACRED_Schema.json                             --relations_spans Schemas/ReTACRED_Spans.json                             --prompt Prompts/qa4re_without_types.txt                             --api_key API_KEY.json                             --model gpt-4o                             --threshold 0.8                             --output_predictions Revised_Predictions/Final_predictions.csv
+python3 2_LLM_Validation.py 
+        --input_predictions Revised_Predictions/Post-Ontology_Predictions.csv                             
+        --ontology_schema Schemas/ReTACRED_Schema.json                             
+        --relations_spans Schemas/ReTACRED_Spans.json                             
+        --prompt Prompts/qa4re_without_types.txt                             
+        --api_key API_KEY.json                             
+        --model gpt-4o                             
+        --threshold 0.8                             
+        --output_predictions Revised_Predictions/Final_predictions.csv
 ```
 
 ### 4. Evaluation of Final Predictions
 
 ```bash
-python3 Evaluation.py --final_predictions Revised_Predictions/Final_predictions.csv
+python3 Evaluation.py 
+        --final_predictions Revised_Predictions/Final_predictions.csv
 ```
 
 
