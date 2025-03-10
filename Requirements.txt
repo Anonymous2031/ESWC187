@@ -1,0 +1,12 @@
+json
+argparse
+pandas==1.5.3
+openai==1.63.2
+asyncio
+time
+torch>=1.8.1
+transformers>=3.4.0
+tqdm==4.67.1
+ujson==5.9.0
+numpy==1.26.4
+wandb
