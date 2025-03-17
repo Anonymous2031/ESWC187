@@ -26,7 +26,7 @@ Initial_Predictions
 
 ## Pretrained models 
 
-Initial predictions are generated using pretrained models trained on the **TACRED** and **ReTACRED** datasets, following the architecture and methodology from the [RE Improved Baseline](https://github.com/wzhouad/RE_improved_baseline) repository. If you wish to train new models, you can follow the instructions in that repository, or you can directly use the pretrained models provided in this [Google Drive link](https://github.com/wzhouad/RE_improved_baseline). These models are based on a **RoBERTa-large encoder** fine-tuned on TACRED and ReTACRED for relation extraction.The expected structure of files is:
+Initial predictions are generated using pretrained models trained on the **TACRED** and **ReTACRED** datasets, following the architecture and methodology from the [RE Improved Baseline](https://github.com/wzhouad/RE_improved_baseline) repository. If you wish to train new models, you can follow the instructions in that repository, or you can directly use the pretrained models provided in this [Dropbox link](https://www.dropbox.com/scl/fi/y02uggb38qj2jbj8inxxs/Models.zip?rlkey=08jsr5tlnltw4l4l7ya9rw8o3&st=bi8texaf&dl=0). These models are based on a **RoBERTa-large encoder** fine-tuned on TACRED and ReTACRED for relation extraction.The expected structure of files is:
 ```
 Initial_Predictions
  |-- Models
