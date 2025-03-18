@@ -1,0 +1,198 @@
+Anonymous_user: python3 0_GenerateSchema.py --input_dataset Initial_Predictions/Dataset/TACRED/train.json --output_schema Schemas/TACRED_Schema.json
+Ontology schema saved to Schemas/TACRED_Schema.json
+Anonymous_user: python3 ./Initial_Predictions/Get_Predictions.py --model_name_or_path  "roberta-large" --check_model "./Initial_Predictions/Models/TACRED_Model/RoBERTa_TACRED.bin" --test_path ./Initial_Predictions/Dataset/TACRED/test.json  --predictions_path  ./Initial_Predictions/Predictions/Initial_predictions_TACRED.csv  --dataset_type TACRED
+/home/mourekouch/ESWC187/Initial_Predictions/model.py:21: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  @autocast()
+Initializing device...
+Using device: GPU
+[LOG] Loading model and tokenizer...
+2025-03-12 12:45:18.858041: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-03-12 12:45:19.752608: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Some weights of RobertaModel were not initialized from the model checkpoint at roberta-large and are newly initialized: ['roberta.pooler.dense.bias', 'roberta.pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/mourekouch/ESWC187/./Initial_Predictions/Get_Predictions.py:30: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(check_model, map_location=device))
+[LOG] Model and tokenizer loaded successfully.
+[LOG] Reading test JSON file from: ./Initial_Predictions/Dataset/TACRED/test.json
+[LOG] Initializing data processor for dataset...
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15509/15509 [00:16<00:00, 948.57it/s]
+[LOG] Test dataset processing time: 16.68 seconds
+[LOG] Running inference on test dataset...
+[LOG] Test dataset inference time: 29.39 seconds
+
+Test Set Evaluation Complete:
+  Precision: 74.92%
+  Recall:    74.29%
+  F1:        74.60%
+  Inference time: 29.39 seconds
+[LOG] Matching predictions with original test data...
+[LOG] File successfully saved at: ./Initial_Predictions/Predictions/Initial_predictions_TACRED.csv
+Anonymous_user: python3 1_Ontology_Validation.py --input_predictions  ./Initial_Predictions/Predictions/Initial_predictions_TACRED.csv --ontology_schema Schemas/TACRED_Schema.json --threshold 1  --output_validated  ./Revised_Predictions/Post_onto_Predictions_TACRED.csv
+## Ontology Validation
+Finished with 9 ontology violations detected
+Time taken for validation: 0.85 seconds
+Anonymous_user: python3 2_LLM_Validation.py --input_predictions Revised_Predictions/Post_onto_Predictions_TACRED.csv --ontology_schema Schemas/TACRED_Schema.json --relations_spans Schemas/TACRED_Spans.json --prompt Prompts/qa4re_without_types.txt  --api_key API_KEY.json  --model gpt-4o  --threshold 0.6  --output_predictions Revised_Predictions/Final_predictions_TACRED.csv
+## LLM Validation
+Validating 386 predictions with LLM...
+LLM validation completed. Results saved to Revised_Predictions/Final_predictions_TACRED.csv
+Anonymous_user: python3 Evaluation.py --final_predictions Revised_Predictions/Final_predictions_TACRED.csv
+Per-relation statistics:
+org:alternate_names                  P:  78.54%  R:  85.92%  F1:  82.06%  #: 213
+org:city_of_headquarters             P:  76.40%  R:  82.93%  F1:  79.53%  #: 82
+org:country_of_headquarters          P:  67.01%  R:  60.19%  F1:  63.41%  #: 108
+org:dissolved                        P: 100.00%  R:   0.00%  F1:   0.00%  #: 2
+org:founded                          P:  86.49%  R:  86.49%  F1:  86.49%  #: 37
+org:founded_by                       P:  70.73%  R:  85.29%  F1:  77.33%  #: 68
+org:member_of                        P:  50.00%  R:   5.56%  F1:   10.00%  #: 18
+org:members                          P:  87.50%  R:  45.16%  F1:  59.57%  #: 31
+org:number_of_employees/members      P: 100.00%  R:  63.16%  F1:  77.42%  #: 19
+org:parents                          P:  53.33%  R:  38.71%  F1:  44.86%  #: 62
+org:political/religious_affiliation  P:  45.45%  R:  50.00%  F1:  47.62%  #: 10
+org:shareholders                     P:  25.00%  R:   7.69%  F1:  11.76%  #: 13
+org:stateorprovince_of_headquarters  P:  76.36%  R:  82.35%  F1:  79.25%  #: 51
+org:subsidiaries                     P:  66.67%  R:  50.00%  F1:  57.14%  #: 44
+org:top_members/employees            P:  74.19%  R:  86.42%  F1:  79.84%  #: 346
+org:website                          P:  80.77%  R:  80.77%  F1:  80.77%  #: 26
+per:age                              P:  88.02%  R:  95.50%  F1:  91.61%  #: 200
+per:alternate_names                  P:  36.36%  R:  36.36%  F1:  36.36%  #: 11
+per:cause_of_death                   P:  92.59%  R:  48.08%  F1:  63.29%  #: 52
+per:charges                          P:  93.26%  R:  80.58%  F1:  86.46%  #: 103
+per:children                         P:  77.27%  R:  45.95%  F1:  57.63%  #: 37
+per:cities_of_residence              P:  58.00%  R:  76.72%  F1:  66.06%  #: 189
+per:city_of_birth                    P:  66.67%  R:  40.00%  F1:  50.00%  #: 5
+per:city_of_death                    P:  73.91%  R:  60.71%  F1:  66.67%  #: 28
+per:countries_of_residence           P:  59.34%  R:  36.49%  F1:  45.19%  #: 148
+per:country_of_birth                 P: 100.00%  R:   0.00%  F1:   0.00%  #: 5
+per:country_of_death                 P: 100.00%  R:   0.00%  F1:   0.00%  #: 9
+per:date_of_birth                    P: 100.00%  R:  77.78%  F1:  87.50%  #: 9
+per:date_of_death                    P:  78.12%  R:  46.30%  F1:  58.14%  #: 54
+per:employee_of                      P:  74.07%  R:  75.76%  F1:  74.91%  #: 264
+per:origin                           P:  76.58%  R:  64.39%  F1:  69.96%  #: 132
+per:other_family                     P:  58.93%  R:  55.00%  F1:  56.90%  #: 60
+per:parents                          P:  76.47%  R:  73.86%  F1:  75.14%  #: 88
+per:religion                         P:  77.27%  R:  72.34%  F1:  74.73%  #: 47
+per:schools_attended                 P:  71.88%  R:  76.67%  F1:  74.19%  #: 30
+per:siblings                         P:  77.78%  R:  76.36%  F1:  77.06%  #: 55
+per:spouse                           P:  71.62%  R:  80.30%  F1:  75.71%  #: 66
+per:stateorprovince_of_birth         P:  44.44%  R:  50.00%  F1:  47.06%  #: 8
+per:stateorprovince_of_death         P:  58.33%  R:  50.00%  F1:  53.85%  #: 14
+per:stateorprovinces_of_residence    P:  59.00%  R:  72.84%  F1:  65.19%  #: 81
+per:title                            P:  84.05%  R:  89.60%  F1:  86.74%  #: 500
+
+Final Score:
+Precision (micro): 74.917%
+   Recall (micro): 74.286%
+       F1 (micro): 74.600%
+Initial predictions evaluation: Precision: 74.92%, Recall: 74.29%, F1: 74.60%
+Per-relation statistics:
+org:alternate_names                  P:  78.54%  R:  85.92%  F1:  82.06%  #: 213
+org:city_of_headquarters             P:  76.40%  R:  82.93%  F1:  79.53%  #: 82
+org:country_of_headquarters          P:  67.01%  R:  60.19%  F1:  63.41%  #: 108
+org:dissolved                        P: 100.00%  R:   0.00%  F1:   0.00%  #: 2
+org:founded                          P:  86.49%  R:  86.49%  F1:  86.49%  #: 37
+org:founded_by                       P:  70.73%  R:  85.29%  F1:  77.33%  #: 68
+org:member_of                        P:  50.00%  R:   5.56%  F1:   10.00%  #: 18
+org:members                          P:  87.50%  R:  45.16%  F1:  59.57%  #: 31
+org:number_of_employees/members      P: 100.00%  R:  63.16%  F1:  77.42%  #: 19
+org:parents                          P:  53.33%  R:  38.71%  F1:  44.86%  #: 62
+org:political/religious_affiliation  P:  45.45%  R:  50.00%  F1:  47.62%  #: 10
+org:shareholders                     P:  25.00%  R:   7.69%  F1:  11.76%  #: 13
+org:stateorprovince_of_headquarters  P:  76.36%  R:  82.35%  F1:  79.25%  #: 51
+org:subsidiaries                     P:  66.67%  R:  50.00%  F1:  57.14%  #: 44
+org:top_members/employees            P:  74.19%  R:  86.42%  F1:  79.84%  #: 346
+org:website                          P:  80.77%  R:  80.77%  F1:  80.77%  #: 26
+per:age                              P:  88.02%  R:  95.50%  F1:  91.61%  #: 200
+per:alternate_names                  P:  36.36%  R:  36.36%  F1:  36.36%  #: 11
+per:cause_of_death                   P:  92.59%  R:  48.08%  F1:  63.29%  #: 52
+per:charges                          P:  93.26%  R:  80.58%  F1:  86.46%  #: 103
+per:children                         P:  77.27%  R:  45.95%  F1:  57.63%  #: 37
+per:cities_of_residence              P:  58.23%  R:  76.72%  F1:  66.21%  #: 189
+per:city_of_birth                    P:  66.67%  R:  40.00%  F1:  50.00%  #: 5
+per:city_of_death                    P:  73.91%  R:  60.71%  F1:  66.67%  #: 28
+per:countries_of_residence           P:  59.34%  R:  36.49%  F1:  45.19%  #: 148
+per:country_of_birth                 P: 100.00%  R:   0.00%  F1:   0.00%  #: 5
+per:country_of_death                 P: 100.00%  R:   0.00%  F1:   0.00%  #: 9
+per:date_of_birth                    P: 100.00%  R:  77.78%  F1:  87.50%  #: 9
+per:date_of_death                    P:  78.12%  R:  46.30%  F1:  58.14%  #: 54
+per:employee_of                      P:  74.35%  R:  75.76%  F1:  75.05%  #: 264
+per:origin                           P:  76.58%  R:  64.39%  F1:  69.96%  #: 132
+per:other_family                     P:  58.93%  R:  55.00%  F1:  56.90%  #: 60
+per:parents                          P:  76.47%  R:  73.86%  F1:  75.14%  #: 88
+per:religion                         P:  77.27%  R:  72.34%  F1:  74.73%  #: 47
+per:schools_attended                 P:  71.88%  R:  76.67%  F1:  74.19%  #: 30
+per:siblings                         P:  77.78%  R:  76.36%  F1:  77.06%  #: 55
+per:spouse                           P:  72.60%  R:  80.30%  F1:  76.26%  #: 66
+per:stateorprovince_of_birth         P:  44.44%  R:  50.00%  F1:  47.06%  #: 8
+per:stateorprovince_of_death         P:  58.33%  R:  50.00%  F1:  53.85%  #: 14
+per:stateorprovinces_of_residence    P:  60.82%  R:  72.84%  F1:  66.29%  #: 81
+per:title                            P:  84.05%  R:  89.60%  F1:  86.74%  #: 500
+
+Final Score:
+Precision (micro): 75.053%
+   Recall (micro): 74.286%
+       F1 (micro): 74.667%
+Post-Ontology predictions evaluation: Precision: 75.05%, Recall: 74.29%, F1: 74.67%
+Per-relation statistics:
+org:alternate_names                  P:  78.88%  R:  85.92%  F1:  82.25%  #: 213
+org:city_of_headquarters             P:  79.07%  R:  82.93%  F1:  80.95%  #: 82
+org:country_of_headquarters          P:  68.82%  R:  59.26%  F1:  63.68%  #: 108
+org:dissolved                        P: 100.00%  R:   0.00%  F1:   0.00%  #: 2
+org:founded                          P:  86.11%  R:  83.78%  F1:  84.93%  #: 37
+org:founded_by                       P:  70.73%  R:  85.29%  F1:  77.33%  #: 68
+org:member_of                        P:  50.00%  R:   5.56%  F1:   10.00%  #: 18
+org:members                          P:  93.33%  R:  45.16%  F1:  60.87%  #: 31
+org:number_of_employees/members      P: 100.00%  R:  63.16%  F1:  77.42%  #: 19
+org:parents                          P:  61.11%  R:  35.48%  F1:  44.90%  #: 62
+org:political/religious_affiliation  P:  45.45%  R:  50.00%  F1:  47.62%  #: 10
+org:shareholders                     P:   0.00%  R:   0.00%  F1:   0.00%  #: 13
+org:stateorprovince_of_headquarters  P:  75.47%  R:  78.43%  F1:  76.92%  #: 51
+org:subsidiaries                     P:  68.97%  R:  45.45%  F1:  54.79%  #: 44
+org:top_members/employees            P:  75.89%  R:  86.42%  F1:  80.81%  #: 346
+org:website                          P:  84.00%  R:  80.77%  F1:  82.35%  #: 26
+per:age                              P:  91.75%  R:  94.50%  F1:  93.10%  #: 200
+per:alternate_names                  P:  36.36%  R:  36.36%  F1:  36.36%  #: 11
+per:cause_of_death                   P:  96.00%  R:  46.15%  F1:  62.34%  #: 52
+per:charges                          P:  93.26%  R:  80.58%  F1:  86.46%  #: 103
+per:children                         P:  80.95%  R:  45.95%  F1:  58.62%  #: 37
+per:cities_of_residence              P:  62.95%  R:  74.60%  F1:  68.28%  #: 189
+per:city_of_birth                    P:  66.67%  R:  40.00%  F1:  50.00%  #: 5
+per:city_of_death                    P:  76.19%  R:  57.14%  F1:  65.31%  #: 28
+per:countries_of_residence           P:  59.49%  R:  31.76%  F1:  41.41%  #: 148
+per:country_of_birth                 P: 100.00%  R:   0.00%  F1:   0.00%  #: 5
+per:country_of_death                 P: 100.00%  R:   0.00%  F1:   0.00%  #: 9
+per:date_of_birth                    P: 100.00%  R:  77.78%  F1:  87.50%  #: 9
+per:date_of_death                    P:  80.65%  R:  46.30%  F1:  58.82%  #: 54
+per:employee_of                      P:  76.17%  R:  73.86%  F1:  75.00%  #: 264
+per:origin                           P:  77.57%  R:  62.88%  F1:  69.46%  #: 132
+per:other_family                     P:  61.11%  R:  55.00%  F1:  57.89%  #: 60
+per:parents                          P:  76.19%  R:  72.73%  F1:  74.42%  #: 88
+per:religion                         P:  78.38%  R:  61.70%  F1:  69.05%  #: 47
+per:schools_attended                 P:  71.88%  R:  76.67%  F1:  74.19%  #: 30
+per:siblings                         P:  82.35%  R:  76.36%  F1:  79.25%  #: 55
+per:spouse                           P:  75.71%  R:  80.30%  F1:  77.94%  #: 66
+per:stateorprovince_of_birth         P:  50.00%  R:  50.00%  F1:  50.00%  #: 8
+per:stateorprovince_of_death         P:  58.33%  R:  50.00%  F1:  53.85%  #: 14
+per:stateorprovinces_of_residence    P:  64.04%  R:  70.37%  F1:  67.06%  #: 81
+per:title                            P:  84.34%  R:  89.40%  F1:  86.80%  #: 500
+
+Final Score:
+Precision (micro): 76.996%
+   Recall (micro): 73.083%
+       F1 (micro): 74.988%
+Final predictions evaluation: Precision: 77.00%, Recall: 73.08%, F1: 74.99%
+
+Impact of Ontology Validation:
+  Precision Change: 0.14%
+  Recall Change: 0.00%
+  F1 Change: 0.07%
+
+Impact of LLM Validation:
+  Precision Change: 1.94%
+  Recall Change: -1.20%
+  F1 Change: 0.32%
+
+Total Change from Initial to Final:
+  Precision Change: 2.08%
+  Recall Change: -1.20%
+  F1 Change: 0.39%
