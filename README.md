@@ -86,7 +86,7 @@ python3 Evaluation.py
 
 
 ## Remark  
-We provided a **DATASET EXAMPLE** in this repository to illustrate the **data structure** at each stage. Only a small set of examples with a higher validation threshold is included—**only 100% confidence cases were kept, while others were filtered out.**
+We provided a **DATASET EXAMPLE** in this repository to illustrate the **data structure** at each stage. Only a small set of examples with a higher validation threshold is included—**only >99% confidence cases were kept, while others were filtered out.**
 
 
 
