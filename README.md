@@ -5,7 +5,7 @@ Official Implementation for RelCheck
 
 ## Description
 
-This project focuses on enhancing relation extraction tasks by integrating ontology validation and LLM validation. The workflow involves generating schemas, validating predictions against ontological structures, refining predictions using LLMs, and evaluating the final outcomes.
+This repository aims to improve relation extraction by integrating ontology validation and LLM-based validation. The workflow includes schema generation, prediction validation against ontological structures, refinement through LLMs, and final outcome evaluation.
 
 ## Dataset
 
